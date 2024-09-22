@@ -1,24 +1,28 @@
 const profileServices = require('../services/profile.services');
+const {imageValidations} = require('../validations/image.validations');
 
 exports.getProfile = async (req, res) => {
   const dataUser = req.user;
+  console.log(req.user)
+  console.log(req.body)
   return res.status(200).json({
     message: "Ini profile page",
     data: dataUser
   });
 };
 
-
 exports.updateProfile = async (req, res) => {
-  const idUser = req.user.id; // Assuming the user ID comes from the JWT
-  const { nomorHP, occupation } = req.body;
+  if (req.files){
+    let imageVal = imageValidations(req)
+  
+      if(imageVal.error){
+          return res.status(400).json({
+              message: imageVal.message
+          })
+      }
+  }
 
-  const updatedData = {
-    nomorHP,
-    occupation,
-  };
+  const result = await profileServices.editProfile(req, res);
 
-  const result = await profileServices.updateProfileServices(idUser, updatedData);
-
-  res.status(result.status).json({ message: result.message });
+  return res.status(result.status).json(result);
 };

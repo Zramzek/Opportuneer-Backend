@@ -13,22 +13,5 @@ exports.userDashboard = async (req, res) => {
   return res.status(result.status).json({
     status:200,
     message: "User Dashboard"
-});
-
-};
-
-exports.dashboard = async (req, res) => {
-  const userId = req.user;
-  const result = await dashboardServices.getUserFeatures(userId);
-
-  if(result){
-    return res.status(200).json({
-      message: "User Dashboard",
-      data: result.data
-    });
-  } else {
-    return res.status(200).json({
-      message: "Guest Dashboard",
-    });
-  }
+  });
 };

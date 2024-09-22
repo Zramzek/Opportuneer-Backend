@@ -6,24 +6,29 @@ var logger = require('morgan');
 const fileUpload = require('express-fileupload');
 
 var userRouter = require('./routes/user.routes');
-var authRouter = require('./routes/auth.routes'); 
+// var authRouter = require('./routes/auth.routes'); 
 var dashboardRouter = require('./routes/dashboard.routes'); 
 var profileRouter = require('./routes/profile.routes'); 
+var courseRouter = require('./routes/course.routes'); 
+var bookmarkRouter = require('./routes/bookmark.routes'); 
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(logger('dev'));
+app.use(fileUpload());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRouter);
 app.use('/', dashboardRouter);
 app.use('/profile', profileRouter);
+app.use('/course', courseRouter);
+app.use('/bookmark', bookmarkRouter);
 // app.use('/auth', authRouter);
 
 app.use(function(req, res, next) {

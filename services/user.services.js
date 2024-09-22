@@ -6,7 +6,6 @@ require('dotenv').config();
 
 exports.Signup = async(req, res) => {
     const {username, email, password} = req.body;
-    console.log(username, email, password);
     
     try{
       const userExists = await user.findOne({
@@ -71,6 +70,7 @@ exports.Login = async (req) => {
         idUser: dataUser.idUser,
         username: dataUser.username,
         email: dataUser.email,
+        isAdmin: dataUser.isAdmin
       }, process.env.JWT, {
         expiresIn: '24h'
       });

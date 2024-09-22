@@ -1,20 +1,44 @@
 const { user } = require('../models');
+const { saveImage, deleteImage } = require('../helpers/image.helpers');
+const fs = require('fs');
 
-const updateProfileServices = async (idUser, updatedData) => {
-  try {
-    const updatedUser = await user.update(updatedData, {
-      where: { idUser }
-    });
+exports.editProfile = async (req, res) => {
+  const {id} = req.params;
 
-    if (updatedUser[0] === 0) {
-      return { status: 404, message: "User not found" };
-    }
+  const data = await user.findOne({where: {id}});
 
-    return { status: 200, message: "Profile updated successfully" };
-  } catch (error) {
-    console.error(error);
-    return { status: 500, message: "Internal server error" };
+  if(!data){
+      return {
+          status: 404,
+          message: "Data Not Found"
+      };
+  };
+
+  const {username, nomorHP, occupation, fotoProfil} = req.body;
+  const slug = username.split(' ').join('-');
+
+  if(req.files){
+      deleteImage(data.fotoProfil);
+    
+      const imageFilePath = await saveImage(req.files.image, slug, "profile");
+    
+      console.log(imageFilePath);
+    
+      await user.update({username, nomorHP, occupation, image: fotoProfil}, {where: {id}});
+    
+      return {
+          status: 200,
+          data: req.body,
+          message: "Success Update Data"
+      };
+    }else{
+      await user.update({username, nomorHP, occupation}, {where: {id}});
+    
+      return {
+          status: 200,
+          data: req.body,
+          message: "Success Update Data"
+      };
   }
-};
 
-module.exports = { updateProfileServices };
+};
