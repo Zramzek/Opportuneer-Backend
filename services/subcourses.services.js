@@ -9,7 +9,7 @@ exports.getSubCourses = async (req, res) => {
     const {courseName} = req.params;
     
     const dataCourse = await course.findOne({where:{courseName}});
-    const dataSubCourse = await subcourse.findAll({where:{id: dataCourse.id}});
+    const dataSubCourse = await subcourse.findAll({where:{idCourse: dataCourse.id}});
 
     if(!dataCourse){
         return {
@@ -83,8 +83,7 @@ exports.addSubCourse = async (req, res) => {
             data: req.body,
             message: "Success Create Data"
         };
-    }
-    
+    }   
 }
 
 exports.editSubCourse = async (req, res) => {
@@ -129,7 +128,7 @@ exports.editSubCourse = async (req, res) => {
 
 exports.deleteSubCourse = async (req, res) => {
     const {id} = req.params
-
+ 
     const data = await subcourse.findOne({where: {id}})
 
     if(!data){
@@ -147,4 +146,25 @@ exports.deleteSubCourse = async (req, res) => {
         status: 200,
         message: "Success Delete Data"
     }
+}
+
+exports.addBookmark = async(req, res) =>{
+    const {idUser} = req.body.id;
+    const {idSubCourse} = req.params;
+    const data = await subcourse.findOne({where: {id: idSubCourse}});
+  
+    if(!data){
+        return {
+            status: 404,
+            message: "Data Not Found"
+        };
+    };
+
+    data = await bookmark.create({idUser, idSubCourse})
+
+    return {
+        status: 200,
+        data,
+        message: "Success add bookmark"
+    };
 }

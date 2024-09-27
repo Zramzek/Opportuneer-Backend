@@ -9,6 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      idCourse: {
+        type: Sequelize.INTEGER
+      },
       subCourseName: {
         type: Sequelize.STRING
       },

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('bios', {
+    await queryInterface.createTable('jobappliers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,8 +12,8 @@ module.exports = {
       idUser: {
         type: Sequelize.INTEGER
       },
-      isiBio: {
-        type: Sequelize.STRING
+      idJob: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -26,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('bios');
+    await queryInterface.dropTable('jobappliers');
   }
 };

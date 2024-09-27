@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   bookmark.init({
+    idUser: DataTypes.INTEGER,
     idSubCourse: DataTypes.INTEGER
   }, {
     sequelize,

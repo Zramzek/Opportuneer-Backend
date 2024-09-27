@@ -41,12 +41,12 @@ exports.Signup = async(req, res) => {
 }
 
 exports.Login = async (req) => {
-    const {username, password} = req.body;
-    console.log(username, password);
+    const {email, password} = req.body;
+    console.log(email, password);
 
       const dataUser = await user.findOne({
         where: {
-          username
+          email
         } 
       });
   
