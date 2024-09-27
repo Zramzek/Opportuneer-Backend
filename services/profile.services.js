@@ -42,3 +42,23 @@ exports.editProfile = async (req, res) => {
   }
 
 };
+
+exports.deleteProfile = async (req, res) => {
+    const {id} = req.params
+
+    const data = await user.findOne({where: {id}})
+
+    if(!data){
+        return {
+            status: 404,
+            message: "Data Not Found"
+        }
+    }
+
+    await user.destroy({where: {id}})
+
+    return {
+        status: 200,
+        message: "Success Delete Data"
+    }
+};

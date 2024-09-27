@@ -26,3 +26,9 @@ exports.updateProfile = async (req, res) => {
 
   return res.status(result.status).json(result);
 };
+
+exports.deleteProfile = async (req, res) => {
+  const result = await profileServices.deleteProfile(req, res);
+
+  return res.status(result.status).json(result);
+};

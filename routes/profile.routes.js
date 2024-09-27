@@ -7,6 +7,6 @@ var router = express.Router();
 router.get('/', authenticateToken, profileController.getProfile);
 router.put('/:id', authenticateToken, profileController.updateProfile);
 
-router.delete('/', authenticateToken, authenticateAdmin, profileController.getProfile);
+router.delete('/:id', authenticateToken, authenticateAdmin, profileController.deleteProfile);
 
 module.exports = router;
