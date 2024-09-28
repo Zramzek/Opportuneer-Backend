@@ -4,7 +4,7 @@ const authenticateToken = require('../middleware/authToken.middleware');
 var router = express.Router();
 
 router.get('/', authenticateToken, bookmarkController.getBookmark);
-router.post('/:courseName', authenticateToken, bookmarkController.addBookmark);
-router.delete('/:courseName/:subCourseName', authenticateToken, bookmarkController.deleteBookmark);
+router.post('/:subCourseName', authenticateToken, bookmarkController.addBookmark);
+router.delete('/:subCourseName', authenticateToken, bookmarkController.deleteBookmark);
 
 module.exports = router;

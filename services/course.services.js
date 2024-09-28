@@ -21,22 +21,23 @@ exports.getAllCourses = async (req, res) => {
 } 
 
 exports.addCourse = async (req, res) => {
-    const {courseName} = req.body
-    const {courseImage} = req.files.image
-
-    const slug = courseName.split(' ').join('-');
-
-    if(courseImage){
+    
+    try{
+        const {courseName} = req.body
+        const {courseImage} = req.files.courseImage
+        const slug = courseName.split(' ').join('-');
+        
         const imageFilePath = await saveImage(courseImage,slug, "courses")
-
+        
         const data = await course.create({courseName, courseImage: imageFilePath})
-
+        
         return {
             status: 201,
             data: req.body,
             message: "Success Create Data"
         }
-      }else{
+    }catch(err){
+        const {courseName} = req.body
         const data = await course.create({courseName})
       
         return {
@@ -59,7 +60,7 @@ exports.editCourse = async (req, res) => {
     };
   
     const {courseName} = req.body
-    const {courseImage} = req.files.image
+    const {courseImage} = req.files.courseImage
     const slug = courseName.split(' ').join('-');
   
     if(req.files){

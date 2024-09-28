@@ -11,7 +11,8 @@ var userRouter = require('./routes/user.routes');
 var dashboardRouter = require('./routes/dashboard.routes'); 
 var profileRouter = require('./routes/profile.routes'); 
 var courseRouter = require('./routes/course.routes'); 
-var bookmarkRouter = require('./routes/bookmark.routes'); 
+// var bookmarkRouter = require('./routes/bookmark.routes'); 
+var jobRouter = require('./routes/jobsearch.routes');
 
 var app = express();
 
@@ -30,7 +31,8 @@ app.use('/user', userRouter);
 app.use('/', dashboardRouter);
 app.use('/profile', profileRouter);
 app.use('/course', courseRouter);
-app.use('/bookmark', bookmarkRouter);
+// app.use('/bookmark', bookmarkRouter);
+app.use('/jobsearch', jobRouter);
 // app.use('/auth', authRouter);
 
 app.use(function(req, res, next) {

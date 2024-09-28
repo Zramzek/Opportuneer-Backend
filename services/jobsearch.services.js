@@ -47,10 +47,9 @@ exports.getJobByCourses = async (req, res) => {
 }
 
 exports.getJobDetail = async (req, res) => {
-    const {courseName, jobname} = req.params;
+    const {jobname} = req.params;
     
-    const dataCourse = await course.findOne({where:{courseName}});
-    const dataJob = await jobsearch.findOne({where:{idCourse: dataCourse.id, jobname}});
+    const dataJob = await jobsearch.findOne({where:{jobname}});
     const dataJobDetail = await detailjob.findOne({where:{idJob: dataJob.id}});
 
     if(!dataCourse){
@@ -82,9 +81,9 @@ exports.getJobDetail = async (req, res) => {
 }
 
 exports.applyJob = async (req, res) => {
-    const {idUser} = req.body.id;
-    const {idJob} = req.params;
-    const data = await jobsearch.findOne({where: {id: idJob}});
+    const {idUser} = req.user.id;
+    const {namaJob} = req.params;
+    const data = await jobsearch.findOne({where: {jobname: namaJob}});
   
     if(!data){
         return {

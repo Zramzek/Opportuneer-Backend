@@ -9,6 +9,7 @@ exports.getSubCourses = async (req, res) => {
     const {courseName} = req.params;
     
     const dataCourse = await course.findOne({where:{courseName}});
+    console.log(dataCourse)
     const dataSubCourse = await subcourse.findAll({where:{idCourse: dataCourse.id}});
 
     if(!dataCourse){
@@ -60,30 +61,40 @@ exports.getSubCoursesDetail = async (req, res) => {
 }
 
 exports.addSubCourse = async (req, res) => {
-    const {subCourseName} = req.body
-    const {subCourseImage} = req.files.image
+    const {courseName, subCourseName, description} = req.body
+    const dataCourse = await course.findOne({where:{courseName}});
 
-    const slug = subCourseName.split(' ').join('-');
+    if(!dataCourse){
+        return {
+            status: 404,
+            message: "Data Course Not Found"
+        }
+    }
 
-    if(subCourseImage){
+    try{
+        const {subCourseImage} = req.files.subCourseImage
+    
+        const slug = subCourseName.split(' ').join('-');
         const imageFilePath = await saveImage(subCourseImage,slug, "subcourses")
-
-        const data = await subcourse.create({subCourseName, subCourseImage: imageFilePath})
-
+    
+        const data = await subcourse.create({idCourse: dataCourse.id, subCourseName, description, subCourseImage: imageFilePath})
+    
         return {
             status: 201,
             data: req.body,
             message: "Success Create Data"
         }
-      }else{
-        const data = await subcourse.create({subCourseName})
+
+    }catch(err){
+        const data = await subcourse.create({idCourse: dataCourse.id,subCourseName, description})
       
         return {
-            status: 200,
+            status: 201,
             data: req.body,
             message: "Success Create Data"
         };
-    }   
+
+    } 
 }
 
 exports.editSubCourse = async (req, res) => {
@@ -146,25 +157,4 @@ exports.deleteSubCourse = async (req, res) => {
         status: 200,
         message: "Success Delete Data"
     }
-}
-
-exports.addBookmark = async(req, res) =>{
-    const {idUser} = req.body.id;
-    const {idSubCourse} = req.params;
-    const data = await subcourse.findOne({where: {id: idSubCourse}});
-  
-    if(!data){
-        return {
-            status: 404,
-            message: "Data Not Found"
-        };
-    };
-
-    data = await bookmark.create({idUser, idSubCourse})
-
-    return {
-        status: 200,
-        data,
-        message: "Success add bookmark"
-    };
 }
