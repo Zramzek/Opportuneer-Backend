@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   jobapplier.init({
     idUser: DataTypes.INTEGER,
-    idJob: DataTypes.INTEGER
+    idJob: DataTypes.INTEGER,
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'jobapplier',

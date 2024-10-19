@@ -24,6 +24,9 @@ module.exports = {
       available: {
         type: Sequelize.BOOLEAN
       },
+      username: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

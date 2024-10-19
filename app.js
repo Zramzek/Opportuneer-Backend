@@ -6,13 +6,15 @@ const cors = require('cors');
 var logger = require('morgan');
 const fileUpload = require('express-fileupload');
 
-var userRouter = require('./routes/user.routes');
-// var authRouter = require('./routes/auth.routes'); 
+// var userRouter = require('./routes/user.routes');
+var authRouter = require('./routes/auth.routes'); 
 var dashboardRouter = require('./routes/dashboard.routes'); 
 var profileRouter = require('./routes/profile.routes'); 
 var courseRouter = require('./routes/course.routes'); 
 // var bookmarkRouter = require('./routes/bookmark.routes'); 
 var jobRouter = require('./routes/jobsearch.routes');
+var jobManagerRouter = require('./routes/jobmanagement.routes');
+var tesMinatRouter = require('./routes/tesminat.routes');
 
 var app = express();
 
@@ -27,13 +29,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/user', userRouter);
+app.use('/auth', authRouter);
 app.use('/', dashboardRouter);
 app.use('/profile', profileRouter);
 app.use('/course', courseRouter);
 // app.use('/bookmark', bookmarkRouter);
 app.use('/jobsearch', jobRouter);
-// app.use('/auth', authRouter);
+app.use('/jobmanager', jobManagerRouter);
+app.use('/tesminat', tesMinatRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));

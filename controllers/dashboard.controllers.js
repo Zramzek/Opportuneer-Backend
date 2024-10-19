@@ -2,6 +2,7 @@ const dashboardServices = require('../services/dashboard.services');
 
 exports.guestDashboard = async (req, res) => {
   return res.status(200).json({
+    status: 200,
     message: "Guest Dashboard",
   });
 };

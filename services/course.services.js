@@ -41,7 +41,7 @@ exports.addCourse = async (req, res) => {
         const data = await course.create({courseName})
       
         return {
-            status: 200,
+            status: 201,
             data: req.body,
             message: "Success Create Data"
         };

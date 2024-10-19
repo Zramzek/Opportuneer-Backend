@@ -1,5 +1,5 @@
-const { where } = require('sequelize');
-const {user, course, jobsearch, detailjob, jobapplier} = require('../models');
+// const { where } = require('sequelize');
+const {course, jobsearch, detailjob, jobapplier} = require('../models');
 
 exports.getAllJob = async (req, res) => {
 
@@ -47,9 +47,9 @@ exports.getJobByCourses = async (req, res) => {
 }
 
 exports.getJobDetail = async (req, res) => {
-    const {jobname} = req.params;
+    const {jobName} = req.params;
     
-    const dataJob = await jobsearch.findOne({where:{jobname}});
+    const dataJob = await jobsearch.findOne({where:{jobname: jobName}});
     const dataJobDetail = await detailjob.findOne({where:{idJob: dataJob.id}});
 
     if(!dataCourse){
@@ -82,13 +82,13 @@ exports.getJobDetail = async (req, res) => {
 
 exports.applyJob = async (req, res) => {
     const {idUser} = req.user.id;
-    const {namaJob} = req.params;
-    const data = await jobsearch.findOne({where: {jobname: namaJob}});
+    const {jobName} = req.params;
+    const data = await jobsearch.findOne({where: {jobname: jobName}});
   
     if(!data){
         return {
             status: 404,
-            message: "Data Not Found"
+            message: "Data Job Not Found"
         };
     };
 
@@ -100,54 +100,3 @@ exports.applyJob = async (req, res) => {
         message: "Success apply job"
     };
 }
-
-// exports.addJob = async (req, res) => {
-//     const {namaCourse} = req.body.courseName
-//     const {idAdmin} = req.body.id;
-//     const dataCourse = await course.findOne({where: {courseName: namaCourse}});
-
-//     if (!dataCourse){
-//         return {
-//             status: 404,
-//             message: "Course not found"
-//         }
-//     }
-    
-//     const data = await subcourse.findOne({where: {id: idSubCourse}});
-  
-//     if(!data){
-//         return {
-//             status: 404,
-//             message: "Data Not Found"
-//         };
-//     };
-
-//     data = await bookmark.create({idUser, idSubCourse})
-
-//     return {
-//         status: 200,
-//         data,
-//         message: "Success add bookmark"
-//     };
-// }
-
-// exports.acceptJob = async (req, res) => {
-
-//     const result = await jobSearchService.addJob(req, res)
-    
-//     return res.status(result.status).json(result)
-// }
-
-// exports.editJob = async (req, res) => {
-
-//     const result = await jobSearchService.editJob(req, res)
-    
-//     return res.status(result.status).json(result)
-// }
-
-// exports.deleteJob = async (req, res) => {
-
-//     const result = await jobSearchService.deleteJob(req, res)
-
-//     return res.status(result.status).json(result)
-// }
