@@ -34,23 +34,3 @@ exports.addJob = async (req, res) => {
     
     return res.status(result.status).json(result)
 }
-
-// exports.acceptJob = async (req, res) => {
-
-//     const result = await jobSearchService.addJob(req, res)
-    
-//     return res.status(result.status).json(result)
-// }
-// exports.editJob = async (req, res) => {
-
-//     const result = await jobSearchService.editJob(req, res)
-    
-//     return res.status(result.status).json(result)
-// }
-
-// exports.deleteJob = async (req, res) => {
-
-//     const result = await jobSearchService.deleteJob(req, res)
-
-//     return res.status(result.status).json(result)
-// }

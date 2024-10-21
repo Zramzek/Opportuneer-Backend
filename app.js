@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 const cors = require('cors');
 var logger = require('morgan');
 const fileUpload = require('express-fileupload');
+const mongoose = require('mongoose');
 
 // var userRouter = require('./routes/user.routes');
 var authRouter = require('./routes/auth.routes'); 
@@ -41,6 +42,11 @@ app.use('/tesminat', tesMinatRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+const MONGO_URL = process.env.MONGO_URL ;
+
+mongoose.connect(MONGO_URL).then(() => {
+  console.log('Connected to MongoDB')}).catch((err) => {console.log('Failed to connect to MongoDB', err)}); 
 
 app.use(function(err, req, res, next) {
   res.locals.message = err.message;
