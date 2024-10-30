@@ -1,5 +1,4 @@
-const {course} = require('../models')   
-const {subcourse} = require('../models')   
+const {course, subcourse, subcoursedone} = require('../models')   
 const fs = require('fs')
 const { saveImage } = require('../helpers/image.helpers')
 const { deleteImage } = require('../helpers/image.helpers')
@@ -35,6 +34,7 @@ exports.getSubCourses = async (req, res) => {
 
 exports.getSubCoursesDetail = async (req, res) => {
     const {courseName, subCourseName} = req.params;
+    const {idUser} = req.user.id;
     
     const dataCourse = await course.findOne({where:{courseName}});
     const dataSubCourse = await subcourse.findOne({where:{id: dataCourse.id, subCourseName}});
@@ -52,6 +52,8 @@ exports.getSubCoursesDetail = async (req, res) => {
             message: "Data Sub Course Not Found"
         }
     }
+
+    await subcoursedone.create({idUser, idSubCourse: dataSubCourse.id, completedAt: new Date()})
 
     return {
         status: 200,

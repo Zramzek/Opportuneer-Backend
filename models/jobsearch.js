@@ -18,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     idAdmin: DataTypes.INTEGER,
     namaperusahaan: DataTypes.STRING,
     jobname: DataTypes.STRING,
+    waktujob: DataTypes.STRING,
+    lokasi: DataTypes.STRING,
+    jenislokasi: DataTypes.STRING,
+    requirement: DataTypes.STRING,
+    responsibility: DataTypes.STRING,
     available: DataTypes.BOOLEAN
   }, {
     sequelize,

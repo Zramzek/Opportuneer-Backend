@@ -7,7 +7,6 @@ var logger = require('morgan');
 const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
 
-// var userRouter = require('./routes/user.routes');
 var authRouter = require('./routes/auth.routes'); 
 var dashboardRouter = require('./routes/dashboard.routes'); 
 var profileRouter = require('./routes/profile.routes'); 
@@ -39,14 +38,15 @@ app.use('/jobsearch', jobRouter);
 app.use('/jobmanager', jobManagerRouter);
 app.use('/tesminat', tesMinatRouter);
 
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
 const MONGO_URL = process.env.MONGO_URL ;
 
-mongoose.connect(MONGO_URL).then(() => {
-  console.log('Connected to MongoDB')}).catch((err) => {console.log('Failed to connect to MongoDB', err)}); 
+mongoose.connect(MONGO_URL)
+  .then(() => {console.log('Connected to MongoDB')})
+  .catch((err) => {console.log('Failed to connect to MongoDB', err)});
+
+app.use(function(req, res, next) {
+  next(createError(404));
+}); 
 
 app.use(function(err, req, res, next) {
   res.locals.message = err.message;
@@ -57,3 +57,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+

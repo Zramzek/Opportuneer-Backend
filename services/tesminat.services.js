@@ -13,14 +13,14 @@ exports.createTesMinat = async (req, res) => {
 
 exports.AttemptTesMinat = async (req, res) => {
     const { tesminatId, answers } = req.body;
-    const userId = req.user.id;
+    const idUser = req.user.id;
 
     const results = answers.reduce((acc, category) => {
         acc[category] = (acc[category] || 0) + 1;
         return acc;
     }, {});
 
-    const newAttempt = new TesminatAttempt({ userId, tesminatId, results });
+    const newAttempt = new TesminatAttempt({ idUser, tesminatId, results });
     const data = await newAttempt.save();
 
     return{
@@ -29,3 +29,13 @@ exports.AttemptTesMinat = async (req, res) => {
         message: 'Success Attempt Tesminat!',
     }
   };
+
+  exports.getTesMinatAttempt = async (req, res) => {
+    const idUser = req.user.id;
+    const data = await TesminatAttempt.find({ idUser }).populate('tesminatId');
+    return{
+        status: 200,
+        data,
+        message: 'Success Get Tesminat Attempts!',
+    }
+  }

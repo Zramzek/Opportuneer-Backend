@@ -5,7 +5,6 @@ const authenticateAdmin = require('../middleware/authAdmin.middleware');
 var router = express.Router();
 
 router.post('/', authenticateToken, authenticateAdmin, tesMinatController.createTesMinat);
-// router.post('/attempt', authenticateToken, tesminatController.AttemptTesMinat);
-// router.get('/attempts', authenticateToken, tesminatController.getTesminatAttempts);
+router.post('/attempt', authenticateToken, tesMinatController.AttemptTesMinat);
 
 module.exports = router;

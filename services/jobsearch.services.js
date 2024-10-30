@@ -46,11 +46,37 @@ exports.getJobByCourses = async (req, res) => {
     }
 }
 
+exports.getAllJobByParameter = async (req, res) => {
+    const {courseName, lokasi, jenislokasi, jobname} = req.body;
+
+    const dataCourse = await course.findOne({where:{courseName}});
+    const dataJob = await jobsearch.findAll({where:{idCourse: dataCourse.id, jobname, lokasi, jenislokasi, available: true}});
+
+    if(!dataJob){
+        return {
+            status: 404,
+            message: "Job data not found"
+        }
+    }
+
+    if(!dataCourse){
+        return {
+            status: 404,
+            message: "Course Data Not Found"
+        }
+    }
+
+    return {
+        status: 200,
+        data: dataJob,
+        message: "Success Get All Data"
+    }
+}
+
 exports.getJobDetail = async (req, res) => {
     const {jobName} = req.params;
     
     const dataJob = await jobsearch.findOne({where:{jobname: jobName}});
-    const dataJobDetail = await detailjob.findOne({where:{idJob: dataJob.id}});
 
     if(!dataCourse){
         return {

@@ -22,7 +22,7 @@ exports.getJobByAdmin = async (req, res) => {
 }
 
 exports.addJob = async (req, res) => {
-    const {courseName, namaPerusahaan, namaJob, waktuJob, lokasi, jenisLokasi,jenisJob, requirement, responsibility} = req.body
+    const {courseName, namaperusahaan, jobname, waktujob, lokasi, jenislokasi, requirement, responsibility} = req.body
     const {idAdmin} = req.user.id;
 
     const dataCourse = await course.findOne({where: {courseName}});
@@ -34,8 +34,7 @@ exports.addJob = async (req, res) => {
         }
     }
     
-    const data = await jobsearch.create({idCourse: dataCourse.id, idAdmin, namaPerusahaan, namaJob, available: true});
-    data = await detailjob.create({idJob: data.id, waktuJob, lokasi, jenisLokasi, jenisJob, requirement, responsibility});
+    const data = await jobsearch.create({idCourse: dataCourse.id, idAdmin, namaperusahaan, jobname, waktujob, lokasi, jenislokasi, requirement, responsibility, available: true});
 
     return {
         status: 201,
@@ -56,10 +55,9 @@ exports.editJob = async (req, res) => {
         };
     };
 
-    const {namaperusahaan, jobname, waktujob, lokasi, jenislokasi,jenisjob, requirement, responsibility} = req.body
+    const {namaperusahaan, jobname, waktujob, lokasi, jenislokasi, requirement, responsibility, available} = req.body
     
-    const updateJob = await jobsearch.update({namaperusahaan, jobname}, {where: {id}});
-    const updateDetail = await detailjob.update({waktujob, lokasi, jenislokasi, jenisjob, requirement, responsibility}) 
+    const updateJob = await jobsearch.update({namaperusahaan, jobname, waktujob, lokasi, jenislokasi, requirement, responsibility, available}, {where: {id}}); 
     
     return {
         status: 200,
